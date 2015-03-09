@@ -1,4 +1,4 @@
-var analyser, audio, audioElement, blueglow, currentTime, intendedHeight, intendedWidth, patrick, position, redglow, source, startPosition, thomas, visualize;
+var analyser, audio, audioElement, bg, blueglow, currentTime, intendedHeight, intendedWidth, patrick, position, redglow, source, startPosition, thomas, visualize;
 
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
@@ -13,6 +13,8 @@ patrick = $('#patrick');
 blueglow = $('#blueglow');
 
 redglow = $('#redglow');
+
+bg = $('#background');
 
 position = +document.cookie.split(";")[0] || 0;
 
@@ -48,8 +50,9 @@ visualize = function() {
       return Math.pow(data, 3) / 5000;
     };
     py = scale(dataArray[1]) / 5;
-    lowVoice = 0.5 + dataArray[21] / 500;
-    highVoice = 0.5 + dataArray[33] / 200 - 0.1;
+    bg.css("opacity", py / 100);
+    lowVoice = 0.5 + dataArray[21] / 500 + Math.sin(0.6 * audio.currentTime) * 0.2;
+    highVoice = 0.5 + dataArray[33] / 200 + Math.sin(0.6 * (audio.currentTime + 3.14)) * 0.2;
     xform = function(element, voice) {
       return element.css("transform", "scale(" + voice + ") translateY(" + Math.round(py) + "px)");
     };
